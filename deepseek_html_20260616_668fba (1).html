@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASM Tool - Complete Attack Surface Management Platform Architecture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0A0F1A;
+            color: #E0E0E0;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0A0F1A 0%, #1A1F2E 100%);
+            border-bottom: 3px solid #00ACC1;
+            padding: 30px 24px 24px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .logo span {
+            font-size: 40px;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #00ACC133;
+            color: #00ACC1;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .description {
+            margin: 12px 0 0;
+            font-size: 14px;
+            color: #90A4AE;
+            max-width: 700px;
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Architecture Diagram */
+        .diagram-container {
+            background: #0F1420;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            border: 1px solid #1E2A3A;
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            color: #00ACC1;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .arch-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 800px;
+        }
+
+        .arch-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .arch-box {
+            background: #111827;
+            border-radius: 12px;
+            padding: 16px 20px;
+            flex: 1;
+            min-width: 180px;
+            border: 1px solid;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .arch-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .arch-box-title {
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .arch-box-items {
+            font-size: 11px;
+            color: #9CA3AF;
+            line-height: 1.6;
+        }
+
+        .arch-arrow {
+            display: flex;
+            align-items: center;
+            color: #00ACC1;
+            font-size: 20px;
+        }
+
+        /* Tool Categories */
+        .tools-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .tool-category {
+            background: #0F1420;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #1E2A3A;
+            transition: all 0.2s;
+        }
+
+        .tool-category:hover {
+            border-color: #00ACC1;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid;
+        }
+
+        .category-header span {
+            font-size: 28px;
+        }
+
+        .category-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tool-badge {
+            background: #1A1F2E;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .tool-badge:hover {
+            transform: scale(1.05);
+            background: #00ACC133;
+        }
+
+        /* Benefits Grid */
+        .benefits-section {
+            background: linear-gradient(135deg, #00ACC110, #4A148C10);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            border: 1px solid #00ACC133;
+        }
+
+        .benefits-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #00ACC1;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .benefit-card {
+            background: #0F1420;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #1E2A3A;
+            transition: all 0.2s;
+        }
+
+        .benefit-card:hover {
+            border-color: #00ACC1;
+            transform: translateY(-2px);
+        }
+
+        .benefit-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .benefit-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .benefit-desc {
+            font-size: 11px;
+            color: #9CA3AF;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 24px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #00ACC1;
+            color: #0A0F1A;
+        }
+
+        .tab-btn.inactive {
+            background: #1A1F2E;
+            color: #9CA3AF;
+        }
+
+        .tab-btn:hover {
+            background: #00ACC155;
+            color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Data Flow */
+        .flow-container {
+            background: #0F1420;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            background: #111827;
+            padding: 14px 18px;
+            border-radius: 12px;
+        }
+
+        /* Tables */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #0F1420;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .tech-table th, .tech-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #1E2A3A;
+        }
+
+        .tech-table th {
+            background: #00ACC1;
+            color: #0A0F1A;
+            font-weight: 700;
+        }
+
+        .tech-table tr:hover {
+            background: #1A1F2E;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #0F1420;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #1E2A3A;
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            border-color: #00ACC1;
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 900;
+            color: #00ACC1;
+        }
+
+        /* Pipeline */
+        .pipeline-container {
+            background: #0F1420;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #1E2A3A;
+        }
+
+        .pipeline-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .pipeline-item:hover {
+            background: #1A1F2E;
+        }
+
+        .pipeline-from, .pipeline-to {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .pipeline-arrow {
+            color: #00ACC1;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Explain Section */
+        .explain-section {
+            background: linear-gradient(135deg, #1A237E20, #4A148C20);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 32px;
+            border: 2px solid #00ACC1;
+            display: none;
+        }
+
+        .explain-section.active {
+            display: block;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explain-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #00ACC1;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .explain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .explain-card {
+            background: #0F1420;
+            border-radius: 16px;
+            padding: 20px;
+            border-left: 4px solid #00ACC1;
+        }
+
+        .explain-card h4 {
+            color: #00ACC1;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .explain-card p {
+            font-size: 13px;
+            color: #9CA3AF;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #1E2A3A;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #6B7280;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1A1F2E;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ACC1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #008C9E;
+        }
+
+        .btn-explain {
+            background: #4A148C;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+
+        .btn-explain:hover {
+            background: #00ACC1;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span>🛡️</span>
+                <h1>ASM TOOL - 100% SUITABLE ARCHITECTURE</h1>
+            </div>
+            <div class="badge">SCALABLE · MODULAR · ASYNC · SECURE · ENTERPRISE READY</div>
+            <p class="description">Complete Attack Surface Management platform with Discovery, Enumeration, Probing, Vulnerability Scanning, AI Risk Engine, and Enterprise-grade deployment. Click any section below to explore.</p>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTabContent('layers')">🗂 ALL LAYERS</button>
+                <button class="tab-btn inactive" onclick="switchTabContent('tools')">🛠️ TOOLS & WORKERS</button>
+                <button class="tab-btn inactive" onclick="switchTabContent('flow')">🔄 DATA FLOW</button>
+                <button class="tab-btn inactive" onclick="switchTabContent('summary')">📋 SUMMARY & STATS</button>
+                <button class="tab-btn inactive" onclick="toggleExplain()">📖 EXPLAIN ARCHITECTURE</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Explain Section -->
+        <div id="explainSection" class="explain-section">
+            <div class="explain-title">
+                <span>📖</span> COMPLETE ARCHITECTURE EXPLANATION
+                <button class="btn-explain" onclick="toggleExplain()">✖ Close</button>
+            </div>
+            <div class="explain-grid">
+                <div class="explain-card">
+                    <h4>🏗️ Overview</h4>
+                    <p>This ASM (Attack Surface Management) platform is a full-stack, enterprise-grade solution for continuous security monitoring. It follows a modular, async-first architecture with 15+ layers, 20+ open-source tools, and AI-powered risk analysis.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>👥 User Layer</h4>
+                    <p>Three primary personas: Security Analysts (track vulnerabilities, generate reports), Pentesters (plan engagements using discovered assets), SOC Teams (monitor real-time dashboard). RBAC controls access per role.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>🖥️ Frontend Layer</h4>
+                    <p>Built with Next.js 14 (React) providing dashboard, asset/scan management, findings viewer, and report generator. Communicates via REST API with FastAPI backend. Served through Nginx with real-time polling.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>⚙️ Backend Layer</h4>
+                    <p>FastAPI (Python) - high-performance async framework with automatic OpenAPI docs. Provides Auth, Targets, Scan Jobs, Assets, Results, Reports, and Users APIs. Uses JWT + RBAC, SQLAlchemy ORM, Pydantic validation.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>🎯 Scan Orchestrator</h4>
+                    <p>The brain of the platform - receives scan requests, decomposes into tool-level tasks, manages dependency ordering (Discovery → Enumeration → Vulnerability), handles rate limiting, retries, and status tracking.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>⚡ Redis + Celery</h4>
+                    <p>Redis acts as message broker and result backend. Celery workers are stateless, horizontally scalable containers executing one tool per target. Supports auto-scaling via Docker Compose and task priorities.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>🔍 Discovery Workers</h4>
+                    <p>Four tools run in parallel: Subfinder (passive via cert transparency), Amass (active+passive DNS), Assetfinder (cert logs), Findomain (fast CT-based). Results deduplicated for maximum coverage.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>📡 Enumeration Workers</h4>
+                    <p>HTTPX (live host detection), Katana (active web crawling), GAU/Waybackurls (historical URLs), DNSX (DNS resolution), Nmap (port scanning). Builds complete asset inventory with services and technologies.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>🛡️ Vulnerability Workers</h4>
+                    <p>Nuclei (9,000+ templates for CVEs/misconfigs), SSL Scanner (TLS analysis), Tech Detection (WhatWeb/Wappalyzer), CloudBrute/S3Scanner (cloud misconfigs). Stores findings with CVE IDs and evidence.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>🗄️ Storage Layer</h4>
+                    <p>PostgreSQL as single source of truth (targets, assets, vulnerabilities, audit logs) with SQLAlchemy ORM. File storage (S3-compatible) for screenshots, raw outputs, and generated reports.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>🧠 AI & Risk Engine</h4>
+                    <p>Post-scan intelligence: calculates 0-100 risk scores, prioritizes CVEs using EPSS/KEV, performs attack path analysis, tags asset criticality, generates AI remediation recommendations and executive summaries.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>🔗 External Integrations</h4>
+                    <p>Fetches live threat intel from CVE/NVD/EPSS/KEV, VirusTotal (reputation), Shodan (internet scans), WhoisXML/IPInfo (geolocation/ASN). Slack/Email/Teams for real-time alerts. Async fetching never blocks scans.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>⏱️ Monitoring & Scheduling</h4>
+                    <p>Cron-like scheduler for automated daily/weekly scans. Change detection compares new vs previous results. Continuous monitoring re-scans critical assets hourly. 24/7 visibility via live dashboard.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>🔔 Alerting System</h4>
+                    <p>Multi-channel alerts: Email (SMTP), Slack/Teams (rich notifications), in-app center, webhook (SIEM integration). Configurable per-target rules for critical findings and scan completions.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>📄 Reporting & Outputs</h4>
+                    <p>Professional PDF reports with executive summaries and vulnerability tables. CSV/JSON exports for raw data. Export API for automated ingestion. Supports SOC2, ISO 27001 compliance.</p>
+                </div>
+                <div class="explain-card">
+                    <h4>🚀 Infrastructure & Deployment</h4>
+                    <p>Fully containerized with Docker + Compose. Nginx reverse proxy for TLS termination. CI/CD via GitHub Actions. Prometheus+Grafana for metrics, Loki/ELK for centralized logging. Nightly backups to S3.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Architecture Diagram -->
+        <div class="diagram-container">
+            <div class="diagram-title">
+                <span>🏗️</span> VISUAL ARCHITECTURE DIAGRAM
+                <span style="font-size: 12px; color: #6B7280; margin-left: auto;">Click any box to explore</span>
+            </div>
+            <div class="arch-grid">
+                <div class="arch-row">
+                    <div class="arch-box" style="border-color: #2E7D32;" onclick="switchTabContent('layers')"><div class="arch-box-title"><span>👥</span> USERS</div><div class="arch-box-items">Security Analysts · Pentesters · SOC Teams</div></div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box" style="border-color: #1565C0;" onclick="switchTabContent('layers')"><div class="arch-box-title"><span>🖥️</span> NEXT.JS FRONTEND</div><div class="arch-box-items">Dashboard · Asset Management · Scan Management · Results · Reports · Settings</div></div>
+                </div>
+                <div class="arch-row">
+                    <div class="arch-box" style="border-color: #00695C;" onclick="switchTabContent('layers')"><div class="arch-box-title"><span>⚙️</span> FASTAPI BACKEND</div><div class="arch-box-items">Auth · Targets · Scan Jobs · Assets · Results · Reports · Users API</div></div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box" style="border-color: #E65100;" onclick="switchTabContent('layers')"><div class="arch-box-title"><span>🎯</span> SCAN ORCHESTRATOR</div><div class="arch-box-items">Job Scheduler · Pipeline Manager · Task Builder · Rate Limiter · Retry Manager</div></div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box" style="border-color: #B71C1C;" onclick="switchTabContent('layers')"><div class="arch-box-title"><span>⚡</span> REDIS + CELERY</div><div class="arch-box-items">Message Broker · Result Backend · Distributed Workers · Auto Scaling</div></div>
+                </div>
+                <div class="arch-row">
+                    <div class="arch-box" style="border-color: #1B5E20;" onclick="switchTabContent('tools')"><div class="arch-box-title"><span>🔍</span> DISCOVERY WORKERS</div><div class="arch-box-items">Subfinder · Amass · Assetfinder · Findomain</div></div>
+                    <div class="arch-box" style="border-color: #0D47A1;" onclick="switchTabContent('tools')"><div class="arch-box-title"><span>📡</span> ENUMERATION WORKERS</div><div class="arch-box-items">Katana · GAU · Waybackurls · DNSX</div></div>
+                    <div class="arch-box" style="border-color: #FF8F00;" onclick="switchTabContent('tools')"><div class="arch-box-title"><span>🔎</span> PROBING WORKERS</div><div class="arch-box-items">HTTPX · Nmap · Wappalyzer · WhatWeb</div></div>
+                    <div class="arch-box" style="border-color: #B71C1C;" onclick="switchTabContent('tools')"><div class="arch-box-title"><span>🛡️</span> VULNERABILITY WORKERS</div><div class="arch-box-items">Nuclei · SSL Scanner · S3Scanner · CloudBrute</div></div>
+                    <div class="arch-box" style="border-color: #4A148C;" onclick="switchTabContent('tools')"><div class="arch-box-title"><span>📸</span> SCREENSHOT WORKERS</div><div class="arch-box-items">GoWitness · Eyewitness</div></div>
+                </div>
+                <div class="arch-row">
+                    <div class="arch-box" style="border-color: #1A237E;" onclick="switchTabContent('layers')"><div class="arch-box-title"><span>🗄️</span> DATA STORAGE LAYER</div><div class="arch-box-items">PostgreSQL · Targets · Scan Jobs · Assets · Ports · HTTP Info · Vulnerabilities</div></div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box" style="border-color: #4A148C;" onclick="switchTabContent('layers')"><div class="arch-box-title"><span>🧠</span> AI & RISK ENGINE</div><div class="arch-box-items">Risk Scoring · Attack Path Analysis · Asset Criticality · AI Recommendations</div></div>
+                </div>
+                <div class="arch-row">
+                    <div class="arch-box" style="border-color: #00ACC1;" onclick="switchTabContent('summary')"><div class="arch-box-title"><span>📊</span> OUTPUTS</div><div class="arch-box-items">Dashboards · PDF Reports · CSV Export · JSON Export API</div></div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box" style="border-color: #263238;" onclick="switchTabContent('layers')"><div class="arch-box-title"><span>🚀</span> INFRASTRUCTURE & DEPLOYMENT</div><div class="arch-box-items">Docker · Compose · Nginx · CI/CD · Backup · Prometheus · Grafana · Loki/ELK</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Layers Tab -->
+        <div id="layersTab" class="tab-content active">
+            <div class="tools-section">
+                <div class="tool-category" style="border-color: #2E7D32;"><div class="category-header" style="border-color: #2E7D32;"><span>👥</span><h3 style="color: #2E7D32;">USERS</h3></div><div class="tools-list"><div class="tool-badge" style="background: #2E7D3222; color: #66BB6A;">Security Analysts</div><div class="tool-badge" style="background: #2E7D3222; color: #66BB6A;">Pentesters</div><div class="tool-badge" style="background: #2E7D3222; color: #66BB6A;">SOC Teams</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">Track vulnerabilities, plan engagements, monitor real-time attack surface with RBAC roles.</p></div>
+                <div class="tool-category" style="border-color: #1565C0;"><div class="category-header" style="border-color: #1565C0;"><span>🖥️</span><h3 style="color: #1565C0;">NEXT.JS FRONTEND</h3></div><div class="tools-list"><div class="tool-badge" style="background: #1565C022; color: #42A5F5;">Dashboard</div><div class="tool-badge" style="background: #1565C022; color: #42A5F5;">Asset Management</div><div class="tool-badge" style="background: #1565C022; color: #42A5F5;">Scan Management</div><div class="tool-badge" style="background: #1565C022; color: #42A5F5;">Results & Findings</div><div class="tool-badge" style="background: #1565C022; color: #42A5F5;">Reports</div><div class="tool-badge" style="background: #1565C022; color: #42A5F5;">Settings</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">Next.js 14 React SPA with real-time polling via Nginx.</p></div>
+                <div class="tool-category" style="border-color: #00695C;"><div class="category-header" style="border-color: #00695C;"><span>⚙️</span><h3 style="color: #00695C;">FASTAPI BACKEND</h3></div><div class="tools-list"><div class="tool-badge" style="background: #00695C22; color: #26A69A;">Auth API</div><div class="tool-badge" style="background: #00695C22; color: #26A69A;">Targets API</div><div class="tool-badge" style="background: #00695C22; color: #26A69A;">Scan Jobs API</div><div class="tool-badge" style="background: #00695C22; color: #26A69A;">Assets API</div><div class="tool-badge" style="background: #00695C22; color: #26A69A;">Results API</div><div class="tool-badge" style="background: #00695C22; color: #26A69A;">Reports API</div><div class="tool-badge" style="background: #00695C22; color: #26A69A;">Users API</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">Async Python with JWT auth, RBAC, SQLAlchemy ORM, Pydantic validation.</p></div>
+            </div>
+            <div class="tools-section">
+                <div class="tool-category" style="border-color: #E65100;"><div class="category-header" style="border-color: #E65100;"><span>🎯</span><h3 style="color: #E65100;">SCAN ORCHESTRATOR</h3></div><div class="tools-list"><div class="tool-badge" style="background: #E6510022; color: #FFA726;">Job Scheduler</div><div class="tool-badge" style="background: #E6510022; color: #FFA726;">Pipeline Manager</div><div class="tool-badge" style="background: #E6510022; color: #FFA726;">Task Builder</div><div class="tool-badge" style="background: #E6510022; color: #FFA726;">Rate Limiter</div><div class="tool-badge" style="background: #E6510022; color: #FFA726;">Retry Manager</div><div class="tool-badge" style="background: #E6510022; color: #FFA726;">Status Tracker</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">Decomposes scans into tool-level tasks, manages dependencies and execution order.</p></div>
+                <div class="tool-category" style="border-color: #B71C1C;"><div class="category-header" style="border-color: #B71C1C;"><span>⚡</span><h3 style="color: #B71C1C;">REDIS + CELERY WORKERS</h3></div><div class="tools-list"><div class="tool-badge" style="background: #B71C1C22; color: #EF5350;">Redis Broker</div><div class="tool-badge" style="background: #B71C1C22; color: #EF5350;">Result Backend</div><div class="tool-badge" style="background: #B71C1C22; color: #EF5350;">Celery Workers</div><div class="tool-badge" style="background: #B71C1C22; color: #EF5350;">Auto Scaling</div><div class="tool-badge" style="background: #B71C1C22; color: #EF5350;">Task Priorities</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">Distributed task queue with horizontally scalable stateless workers.</p></div>
+                <div class="tool-category" style="border-color: #1A237E;"><div class="category-header" style="border-color: #1A237E;"><span>🗄️</span><h3 style="color: #1A237E;">POSTGRESQL + FILE STORAGE</h3></div><div class="tools-list"><div class="tool-badge" style="background: #1A237E22; color: #7986CB;">Targets</div><div class="tool-badge" style="background: #1A237E22; color: #7986CB;">Scan Jobs</div><div class="tool-badge" style="background: #1A237E22; color: #7986CB;">Assets</div><div class="tool-badge" style="background: #1A237E22; color: #7986CB;">Ports</div><div class="tool-badge" style="background: #1A237E22; color: #7986CB;">HTTP Info</div><div class="tool-badge" style="background: #1A237E22; color: #7986CB;">Vulnerabilities</div><div class="tool-badge" style="background: #1A237E22; color: #7986CB;">Audit Logs</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">Single source of truth with SQLAlchemy ORM and S3-compatible storage.</p></div>
+            </div>
+        </div>
+
+        <!-- Tools Tab -->
+        <div id="toolsTab" class="tab-content">
+            <div class="tools-section">
+                <div class="tool-category" style="border-color: #1B5E20;"><div class="category-header" style="border-color: #1B5E20;"><span>🔍</span><h3 style="color: #1B5E20;">DISCOVERY TOOLS</h3></div><div class="tools-list"><div class="tool-badge" style="background: #1B5E2022; color: #66BB6A;">Subfinder</div><div class="tool-badge" style="background: #1B5E2022; color: #66BB6A;">Amass</div><div class="tool-badge" style="background: #1B5E2022; color: #66BB6A;">Assetfinder</div><div class="tool-badge" style="background: #1B5E2022; color: #66BB6A;">Findomain</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">Passive + active subdomain discovery via certificate transparency and DNS datasets.</p></div>
+                <div class="tool-category" style="border-color: #0D47A1;"><div class="category-header" style="border-color: #0D47A1;"><span>📡</span><h3 style="color: #0D47A1;">ENUMERATION TOOLS</h3></div><div class="tools-list"><div class="tool-badge" style="background: #0D47A122; color: #5C6BC0;">Katana</div><div class="tool-badge" style="background: #0D47A122; color: #5C6BC0;">GAU</div><div class="tool-badge" style="background: #0D47A122; color: #5C6BC0;">Waybackurls</div><div class="tool-badge" style="background: #0D47A122; color: #5C6BC0;">DNSX</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">Active web crawling, historical URL discovery, DNS resolution.</p></div>
+                <div class="tool-category" style="border-color: #FF8F00;"><div class="category-header" style="border-color: #FF8F00;"><span>🔎</span><h3 style="color: #FF8F00;">PROBING TOOLS</h3></div><div class="tools-list"><div class="tool-badge" style="background: #FF8F0022; color: #FFB74D;">HTTPX</div><div class="tool-badge" style="background: #FF8F0022; color: #FFB74D;">Nmap</div><div class="tool-badge" style="background: #FF8F0022; color: #FFB74D;">Wappalyzer</div><div class="tool-badge" style="background: #FF8F0022; color: #FFB74D;">WhatWeb</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">HTTP probing, port scanning, technology fingerprinting.</p></div>
+            </div>
+            <div class="tools-section">
+                <div class="tool-category" style="border-color: #B71C1C;"><div class="category-header" style="border-color: #B71C1C;"><span>🛡️</span><h3 style="color: #B71C1C;">VULNERABILITY TOOLS</h3></div><div class="tools-list"><div class="tool-badge" style="background: #B71C1C22; color: #EF9A9A;">Nuclei</div><div class="tool-badge" style="background: #B71C1C22; color: #EF9A9A;">SSL Scanner</div><div class="tool-badge" style="background: #B71C1C22; color: #EF9A9A;">S3Scanner</div><div class="tool-badge" style="background: #B71C1C22; color: #EF9A9A;">CloudBrute</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">9,000+ Nuclei templates, TLS analysis, cloud misconfiguration detection.</p></div>
+                <div class="tool-category" style="border-color: #4A148C;"><div class="category-header" style="border-color: #4A148C;"><span>📸</span><h3 style="color: #4A148C;">SCREENSHOT TOOLS</h3></div><div class="tools-list"><div class="tool-badge" style="background: #4A148C22; color: #AB47BC;">GoWitness</div><div class="tool-badge" style="background: #4A148C22; color: #AB47BC;">Eyewitness</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">Automated screenshot capture for visual evidence.</p></div>
+                <div class="tool-category" style="border-color: #00ACC1;"><div class="category-header" style="border-color: #00ACC1;"><span>🧠</span><h3 style="color: #00ACC1;">AI & RISK ENGINE</h3></div><div class="tools-list"><div class="tool-badge" style="background: #00ACC122; color: #4DD0E1;">Risk Scoring</div><div class="tool-badge" style="background: #00ACC122; color: #4DD0E1;">Attack Path</div><div class="tool-badge" style="background: #00ACC122; color: #4DD0E1;">AI Recommendations</div><div class="tool-badge" style="background: #00ACC122; color: #4DD0E1;">CVE Prioritization</div></div><p style="font-size: 11px; color: #9CA3AF; margin-top: 12px;">EPSS-based scoring, attack path analysis, executive summaries.</p></div>
+            </div>
+        </div>
+
+        <!-- Data Flow Tab -->
+        <div id="flowTab" class="tab-content">
+            <div class="flow-container"><h3 style="color: #00ACC1; margin-bottom: 20px;">🔄 End-to-End Scan Data Flow</h3>
+                <div class="flow-step"><div class="step-number" style="background: #1565C0;">1</div><div class="step-content"><strong style="color: #1565C0;">Trigger</strong><br>Analyst creates scan job via Next.js → FastAPI validates and stores as PENDING</div></div>
+                <div class="flow-step"><div class="step-number" style="background: #E65100;">2</div><div class="step-content"><strong style="color: #E65100;">Orchestrate</strong><br>Orchestrator builds task graph → pushes Discovery tasks to Redis queue</div></div>
+                <div class="flow-step"><div class="step-number" style="background: #1B5E20;">3</div><div class="step-content"><strong style="color: #1B5E20;">Discovery</strong><br>Celery workers run Subfinder/Amass/etc in parallel → subdomains stored in PostgreSQL</div></div>
+                <div class="flow-step"><div class="step-number" style="background: #0D47A1;">4</div><div class="step-content"><strong style="color: #0D47A1;">Enumerate</strong><br>HTTPX probes live hosts → Nmap scans ports → DNSX resolves records</div></div>
+                <div class="flow-step"><div class="step-number" style="background: #B71C1C;">5</div><div class="step-content"><strong style="color: #B71C1C;">Vulnerability Scan</strong><br>Nuclei runs 9,000+ templates → SSL Scanner → Tech Detection → CloudBrute</div></div>
+                <div class="flow-step"><div class="step-number" style="background: #4A148C;">6</div><div class="step-content"><strong style="color: #4A148C;">AI Enrich</strong><br>Risk Engine fetches EPSS scores → calculates risk per asset → drafts exec summary</div></div>
+                <div class="flow-step"><div class="step-number" style="background: #C62828;">7</div><div class="step-content"><strong style="color: #C62828;">Alert & Report</strong><br>Alerts sent via Slack/Email → PDF/CSV/JSON generated → Dashboard shows results</div></div>
+            </div>
+            <div class="pipeline-container"><h3 style="color: #00ACC1; margin-bottom: 16px;">🔄 Pipeline Architecture</h3>
+                <div class="pipeline-item"><span class="pipeline-from" style="background: #2E7D3233; color: #66BB6A;">USERS</span><span class="pipeline-arrow">→</span><span class="pipeline-to" style="background: #1565C033; color: #42A5F5;">Next.js Frontend</span></div>
+                <div class="pipeline-item"><span class="pipeline-from" style="background: #1565C033; color: #42A5F5;">Next.js Frontend</span><span class="pipeline-arrow">REST API ↕</span><span class="pipeline-to" style="background: #00695C33; color: #26A69A;">FastAPI Backend</span></div>
+                <div class="pipeline-item"><span class="pipeline-from" style="background: #00695C33; color: #26A69A;">FastAPI Backend</span><span class="pipeline-arrow">→</span><span class="pipeline-to" style="background: #E6510033; color: #FFA726;">Scan Orchestrator</span></div>
+                <div class="pipeline-item"><span class="pipeline-from" style="background: #E6510033; color: #FFA726;">Scan Orchestrator</span><span class="pipeline-arrow">→ queue →</span><span class="pipeline-to" style="background: #B71C1C33; color: #EF5350;">Redis Broker</span></div>
+                <div class="pipeline-item"><span class="pipeline-from" style="background: #B71C1C33; color: #EF5350;">Redis Broker</span><span class="pipeline-arrow">→ workers →</span><span class="pipeline-to" style="background: #B71C1C33; color: #EF5350;">Celery Workers</span></div>
+                <div class="pipeline-item"><span class="pipeline-from" style="background: #B71C1C33; color: #EF5350;">Celery Workers</span><span class="pipeline-arrow">→ runs →</span><span class="pipeline-to" style="background: #1B5E2033; color: #66BB6A;">Discovery → Enum → Vuln</span></div>
+                <div class="pipeline-item"><span class="pipeline-from" style="background: #1B5E2033; color: #66BB6A;">Discovery/Enum/Vuln</span><span class="pipeline-arrow">→ stores →</span><span class="pipeline-to" style="background: #1A237E33; color: #7986CB;">PostgreSQL + File Storage</span></div>
+                <div class="pipeline-item"><span class="pipeline-from" style="background: #1A237E33; color: #7986CB;">PostgreSQL</span><span class="pipeline-arrow">→ enriches →</span><span class="pipeline-to" style="background: #4A148C33; color: #AB47BC;">AI & Risk Engine</span></div>
+                <div class="pipeline-item"><span class="pipeline-from" style="background: #4A148C33; color: #AB47BC;">AI & Risk Engine</span><span class="pipeline-arrow">→ alerts & reports →</span><span class="pipeline-to" style="background: #C6282833; color: #EF9A9A;">Alerting + Reporting → Users</span></div>
+            </div>
+        </div>
+
+        <!-- Summary Tab -->
+        <div id="summaryTab" class="tab-content">
+            <div class="stats-grid"><div class="stat-card"><div class="stat-number">15+</div><div>Layers</div></div><div class="stat-card"><div class="stat-number">20+</div><div>Open-source Tools</div></div><div class="stat-card"><div class="stat-number">9,000+</div><div>Nuclei Templates</div></div><div class="stat-card"><div class="stat-number">7</div><div>API Endpoints</div></div><div class="stat-card"><div class="stat-number">5</div><div>External Feeds</div></div><div class="stat-card"><div class="stat-number">3</div><div>Report Formats</div></div><div class="stat-card"><div class="stat-number">4</div><div>Alert Channels</div></div></div>
+            <div class="benefits-section"><div class="benefits-title"><span>⭐</span> KEY BENEFITS</div><div class="benefits-grid"><div class="benefit-card"><div class="benefit-icon">📐</div><div class="benefit-title">100% Modular & Extensible</div><div class="benefit-desc">Add new tools without touching other layers</div></div><div class="benefit-card"><div class="benefit-icon">📈</div><div class="benefit-title">Highly Scalable</div><div class="benefit-desc">Horizontal scaling via Docker Compose</div></div><div class="benefit-card"><div class="benefit-icon">⚡</div><div class="benefit-title">Async & Non-Blocking</div><div class="benefit-desc">UI never blocks, scans run in background</div></div><div class="benefit-card"><div class="benefit-icon">🔒</div><div class="benefit-title">Secure by Design</div><div class="benefit-desc">JWT auth, RBAC, immutable audit logs</div></div><div class="benefit-card"><div class="benefit-icon">🏢</div><div class="benefit-title">Enterprise Ready</div><div class="benefit-desc">Prometheus, Grafana, Loki/ELK</div></div><div class="benefit-card"><div class="benefit-icon">🧠</div><div class="benefit-title">AI Enhanced Intelligence</div><div class="benefit-desc">EPSS scoring, attack path analysis</div></div></div></div>
+            <h3 style="color: #00ACC1; margin-bottom: 16px;">📊 Technology Stack</h3>
+            <table class="tech-table"><thead><tr><th>Layer</th><th>Technology</th><th>Role</th></tr></thead><tbody>
+                <tr><td>Frontend</td><td>Next.js 14</td><td>React SPA with SSR</td></tr>
+                <tr><td>Backend</td><td>FastAPI (Python)</td><td>Async REST API</td></tr>
+                <tr><td>Task Queue</td><td>Celery + Redis</td><td>Distributed job execution</td></tr>
+                <tr><td>Database</td><td>PostgreSQL</td><td>Primary data store</td></tr>
+                <tr><td>ORM</td><td>SQLAlchemy 2.0</td><td>Async DB sessions</td></tr>
+                <tr><td>Validation</td><td>Pydantic v2</td><td>Schema enforcement</td></tr>
+                <tr><td>Auth</td><td>JWT + passlib</td><td>Secure token-based auth</td></tr>
+                <tr><td>Containers</td><td>Docker + Compose</td><td>Service orchestration</td></tr>
+                <tr><td>Proxy</td><td>Nginx</td><td>TLS + routing</td></tr>
+                <tr><td>Monitoring</td><td>Prometheus + Grafana</td><td>Metrics + dashboards</td></tr>
+                <tr><td>Logging</td><td>Loki / ELK</td><td>Centralised log search</td></tr>
+            </tbody></table>
+        </div>
+
+        <div class="footer"><p>ASM Platform · 100% Suitable Architecture · Complete Attack Surface Management · 2026</p></div>
+    </div>
+
+    <script>
+        function switchTabContent(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('inactive');
+            });
+            const buttons = document.querySelectorAll('.tab-btn');
+            const tabMap = { layers: 0, tools: 1, flow: 2, summary: 3 };
+            const index = tabMap[tabId];
+            if (buttons[index]) {
+                buttons[index].classList.remove('inactive');
+                buttons[index].classList.add('active');
+            }
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId + 'Tab').classList.add('active');
+        }
+
+        function toggleExplain() {
+            const explainSection = document.getElementById('explainSection');
+            const explainBtn = document.querySelector('.tab-btn:last-child');
+            if (explainSection.classList.contains('active')) {
+                explainSection.classList.remove('active');
+                if (explainBtn) {
+                    explainBtn.classList.remove('active');
+                    explainBtn.classList.add('inactive');
+                }
+            } else {
+                explainSection.classList.add('active');
+                if (explainBtn) {
+                    explainBtn.classList.remove('inactive');
+                    explainBtn.classList.add('active');
+                }
+                // Auto-scroll to explain section
+                explainSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>
